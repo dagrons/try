@@ -1,0 +1,5 @@
+/download/
+/venv/
+/.idea/
+*.exe
+.DS_Store
