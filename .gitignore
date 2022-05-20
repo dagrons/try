@@ -3,3 +3,4 @@
 /.idea/
 *.exe
 .DS_Store
+*.csv

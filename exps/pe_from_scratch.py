@@ -1,8 +1,13 @@
+"""
+从0开始构建一个pe文件
+"""
+
 import os
-from lief import PE
+import lief
+from lief import *
 from keystone import * # keystone是汇编工具，capstone是反汇编工具，unicorn是模拟器
 
-binary32 = PE.Binary("pe_from_scatch", PE.PE_TYPE.PE32)
+binary32 = lief.PE.Binary("scratch", PE.PE_TYPE.PE32)
 
 # construct data
 title = "LIFE is awesome\0"
@@ -14,9 +19,8 @@ message_addr = title_addr + len(title)
 data = list(map(ord, title))
 data += list(map(ord, message))
 
-section_data = PE.Section(".data")
+section_data = PE.Section(".mydata")
 section_data.content = data
-section_data.virtual_address = 0x2000
 
 # construct code
 user32 = binary32.add_library("user32.dll")
@@ -43,9 +47,8 @@ except KsError as e:
 
 print(list(map(hex, encoding)))
 
-section_text = PE.Section(".text")
+section_text = PE.Section(".mytext")
 section_text.content = encoding
-section_text.virtual_address = 0x1000
 
 section_text = binary32.add_section(section_text, PE.SECTION_TYPES.TEXT)
 section_data = binary32.add_section(section_data, PE.SECTION_TYPES.DATA)
@@ -58,12 +61,8 @@ print("ExitProcess", hex(binary32.predict_function_rva("kernel32.dll", "ExitProc
 print("MessageBoxA", hex(binary32.predict_function_rva("user32.dll", "MessageBoxA")))
 
 # OEP
-binary32.optional_header.addressof_entrypoint = section_text.virtual_address
+# binary32.optional_header.addressof_entrypoint = section_text.virtual_address
 
-# build
-builder = PE.Builder(binary32)
-builder.build_imports(True)
-builder.build()
-builder.write(os.path.join(os.path.dirname(__file__), "output", "pe_from_scratch.exe"))
+binary32.write(os.path.join(os.path.dirname(os.path.dirname(__file__)), "output", "pe_from_scratch.exe"))
 
 
