@@ -5,12 +5,20 @@ import os
 import sys
 import lief
 import csv
+import tqdm
 
 with open("index.csv", "w") as csvfile:
     index_writer = csv.DictWriter(csvfile, fieldnames=["filename", "sha256", "md5"])
     index_writer.writeheader()
+    fcnt = 0
+    for root, _, files in os.walk(sys.argv[1]):
+        for f in files:
+            fcnt += 1
+    print("total files: %d" % (fcnt))
+    tq = tqdm.tqdm(total=fcnt)
     for root, _, files in os.walk(sys.argv[1]):
         for file in files:
+            tq.update(1)
             fpath = os.path.join(root, file)
             fpath = os.path.abspath(fpath)
             if lief.is_pe(fpath):
