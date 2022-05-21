@@ -15,32 +15,32 @@ argp.add_argument("--skip-dup-file", action='store_true', help = "skip duplicate
 args = argp.parse_args()
 
 
-hashset = set()
-fpathset = set()
+hash_set = set()
+path_set = set()
 
 # rebuild index
 with open("index.csv", "r") as csvfile:
     index_reader = csv.DictReader(csvfile)
     for row in index_reader:
-        fpathset.add(row['filename'])
+        path_set.add(row['filename'])
 
 # append index
 with open("index.csv", "a") as csvfile:
     index_writer = csv.DictWriter(csvfile, fieldnames=["filename", "sha256", "md5"])
-    if len(fpathset) == 0:
+    if len(path_set) == 0:
         index_writer.writeheader()
-    fcnt = 0
+    file_cnt = 0
     for root, _, files in os.walk(args.folder):
         for f in files:
-            fcnt += 1
-    print("total files: %d" % (fcnt))
-    tq = tqdm.tqdm(total=fcnt, ascii=True)
+            file_cnt += 1
+    print("total files: %d" % file_cnt)
+    tq = tqdm.tqdm(total=file_cnt, ascii=True)
     for root, _, files in os.walk(sys.argv[1]):
         for file in files:
             tq.update(1)
             fpath = os.path.join(root, file)
             fpath = os.path.abspath(fpath)
-            if fpath in fpathset and args.skip_dup_file:
+            if fpath in path_set and args.skip_dup_file:
                 continue
             if lief.is_pe(fpath):
                 sha256_hash = hashlib.sha256()
@@ -51,8 +51,8 @@ with open("index.csv", "a") as csvfile:
                         md5_hash.update(block)
                 sha256_s = sha256_hash.hexdigest()
                 md5_s = md5_hash.hexdigest()
-                if sha256_s in hashset:
+                if sha256_s in hash_set:
                     continue
-                hashset.add(sha256_s)
-                fpathset.add(fpath)
+                hash_set.add(sha256_s)
+                path_set.add(fpath)
                 index_writer.writerow({"filename": fpath, "sha256": sha256_s, "md5": md5_s})
