@@ -15,7 +15,7 @@ with open("index.csv", "w") as csvfile:
         for f in files:
             fcnt += 1
     print("total files: %d" % (fcnt))
-    tq = tqdm.tqdm(total=fcnt)
+    tq = tqdm.tqdm(total=fcnt, ascii=True)
     for root, _, files in os.walk(sys.argv[1]):
         for file in files:
             tq.update(1)
