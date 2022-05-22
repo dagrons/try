@@ -1,3 +1,5 @@
+"""c.csv = a.csv - b.csv"""
+
 import argparse
 import csv
 from dataclasses import dataclass
