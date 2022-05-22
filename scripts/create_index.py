@@ -29,9 +29,9 @@ if os.path.exists(index_path):
             path_set.add(row['filename'])
 
 # append index
-with open(index_path, "a+") as csvfile:
+with open(index_path, "ra+") as csvfile:
     index_writer = csv.DictWriter(csvfile, fieldnames=["filename", "sha256", "md5"])
-    if len(path_set) == 0:
+    if len(path_set) == 0 and not csvfile.readline().startswith("filename"):
         index_writer.writeheader()
     file_cnt = 0
     for root, _, files in os.walk(args.folder):
