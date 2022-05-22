@@ -35,12 +35,14 @@ class BaseFeature(Feature):
 class RawBytesFeature(Feature):
     """raw bytes from whole exe"""
 
-    def __init__(self, exe_path):
+    def __init__(self):
         super(RawBytesFeature, self).__init__()
-        with open(exe_path, 'rb') as f:
-            self.bytez = f.read()
+        self.bytez = None
 
-    def __call__(self):
+    def __call__(self, binary):
+        builder = lief.PE.Builder(binary)
+        builder.build()
+        self.bytez = bytearray(builder.get_build())
         return self.bytez
 
     def image(self, width=256):
@@ -55,28 +57,27 @@ class RawBytesFeature(Feature):
 
 
 class OpCodeFeature(Feature):
-    """opcode sequence from all executable sections"""
+    """opcode sequence from binary"""
 
-    def __init__(self, exe_path, only_text=False):
+    def __init__(self, only_text=False):
         super(OpCodeFeature, self).__init__()
-        self.binary = lief.PE.parse(exe_path)
         self.only_text = only_text
 
-    def __call__(self):
+    def __call__(self, binary):
         opcode_seq = []
         disasm_sections = []
-        for sec in self.binary.sections:
+        for sec in binary.sections:
             if lief.PE.SECTION_CHARACTERISTICS.MEM_EXECUTE in sec.characteristics_lists:
                 disasm_sections.append(sec.name)
         if self.only_text:
             disasm_sections = [".text"]
         for name in disasm_sections:
-            section = self.binary.get_section(name)
+            section = binary.get_section(name)
             try: # some sections may contains no content
                 bytes = section.content.tobytes()
             except:
                 continue
-            if self.binary.header.machine == lief.PE.MACHINE_TYPES.I386:
+            if binary.header.machine == lief.PE.MACHINE_TYPES.I386:
                 md = Cs(CS_ARCH_X86, CS_MODE_32)
             else:
                 md = Cs(CS_ARCH_X86, CS_MODE_64)
@@ -98,10 +99,11 @@ if __name__ == "__main__":
         fclient.download_auth_file(
             file,
             save_path)
-        bytes = RawBytesFeature(save_path)
-        print(hex(len(bytes())))
+        binary = lief.PE.parse(save_path)
+        bytes = RawBytesFeature()
+        print(hex(len(bytes(binary))))
         print(bytes.image())
-        opcodes = OpCodeFeature(save_path)
-        opcode_set.update(opcodes())
+        opcodes = OpCodeFeature()
+        opcode_set.update(opcodes(binary))
     print(len(opcode_set))
 
