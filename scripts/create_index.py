@@ -11,6 +11,7 @@ import argparse
 # parse the arguments
 argp = argparse.ArgumentParser()
 argp.add_argument("folder", type=str, default=".", help = "target folder")
+argp.add_argument("index_path", type=str, default="index.csv", help="index file path")
 argp.add_argument("--skip-dup-file", action='store_true', help = "skip duplicate files")
 args = argp.parse_args()
 
@@ -19,14 +20,15 @@ hash_set = set()
 path_set = set()
 
 # rebuild index
-if os.path.exists("index.csv"):
-    with open("index.csv", "r") as csvfile:
+index_path = args.index_path
+if os.path.exists(index_path):
+    with open(index_path, "r") as csvfile:
         index_reader = csv.DictReader(csvfile)
         for row in index_reader:
             path_set.add(row['filename'])
 
 # append index
-with open("index.csv", "a+") as csvfile:
+with open(index_path, "a+") as csvfile:
     index_writer = csv.DictWriter(csvfile, fieldnames=["filename", "sha256", "md5"])
     if len(path_set) == 0:
         index_writer.writeheader()
