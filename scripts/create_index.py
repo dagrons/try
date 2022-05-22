@@ -19,13 +19,14 @@ hash_set = set()
 path_set = set()
 
 # rebuild index
-with open("index.csv", "r") as csvfile:
-    index_reader = csv.DictReader(csvfile)
-    for row in index_reader:
-        path_set.add(row['filename'])
+if os.path.exists("index.csv"):
+    with open("index.csv", "r") as csvfile:
+        index_reader = csv.DictReader(csvfile)
+        for row in index_reader:
+            path_set.add(row['filename'])
 
 # append index
-with open("index.csv", "a") as csvfile:
+with open("index.csv", "a+") as csvfile:
     index_writer = csv.DictWriter(csvfile, fieldnames=["filename", "sha256", "md5"])
     if len(path_set) == 0:
         index_writer.writeheader()
