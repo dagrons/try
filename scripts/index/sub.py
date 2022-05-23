@@ -5,6 +5,16 @@ import csv
 from dataclasses import dataclass
 
 
+@dataclass
+class Record:
+    filename: str
+    sha256: str
+    md5: str
+
+    def __hash__(self):
+        return int(self.sha256, 16)
+
+
 def main():
     argp = argparse.ArgumentParser()
     argp.add_argument("a_index")
@@ -15,15 +25,6 @@ def main():
     a_index_path = args.a_index
     b_index_path = args.b_index
     c_index_path = args.c_index
-
-    @dataclass
-    class Record:
-        filename: str
-        sha256: str
-        md5: str
-
-        def __hash__(self):
-            return int(self.sha256, 16)
 
     a_data = set()
     with open(a_index_path, 'r') as f:
