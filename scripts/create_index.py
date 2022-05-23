@@ -32,7 +32,7 @@ with open(index_path, 'r') as rfile:
     if rfile.readline().startswith("filename"):
         has_header = True
 # append index
-with open(index_path, "a+") as csvfile:
+with open(index_path, "a") as csvfile:
     index_writer = csv.DictWriter(csvfile, fieldnames=["filename", "sha256", "md5"])
     if len(path_set) == 0 and not has_header:
         index_writer.writeheader()
