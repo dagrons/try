@@ -28,13 +28,13 @@ def main():
 
     a_data = set()
     with open(a_index_path, 'r') as f:
-        a_reader = csv.DictReader(f)
+        a_reader = csv.DictReader(f, fieldnames=["filename", "sha256", "md5"])
         for row in a_reader:
             a_data.add(Record(row['filename'], row['sha256'], row['md5']))
 
     b_data = set()
     with open(b_index_path, 'r') as f:
-        b_reader = csv.DictReader(f)
+        b_reader = csv.DictReader(f, fieldnames=["filename", "sha256", "md5"])
         for row in b_reader:
             b_data.add(Record(row['filename'], row['sha256'], row['md5']))
 

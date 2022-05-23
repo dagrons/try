@@ -23,7 +23,7 @@ def main():
     index_path = args.index_path
     if os.path.exists(index_path):
         with open(index_path, "r") as csvfile:
-            index_reader = csv.DictReader(csvfile)
+            index_reader = csv.DictReader(csvfile, fieldnames=["filename", "sha256", "md5"])
             for row in index_reader:
                 path_set.add(row['filename'])
 
