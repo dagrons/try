@@ -10,7 +10,7 @@ class Record:
     md5: str
 
     def __hash__(self):
-        return self.sha256
+        return int(self.sha256, 16)
 
 
 def main():
