@@ -29,7 +29,7 @@ def main():
         csv_writer = csv.DictWriter(f, fieldnames=["filename", "sha256", "md5"])
         csv_writer.writeheader()
         for record in src_set:
-            csv_writer.writerow([record.filename, record.sha256, record.md5])
+            csv_writer.writerow({"filename": record.filename, "sha256": record.sha256, "md5": record.md5})
 
 
 if __name__ == "__main__":
