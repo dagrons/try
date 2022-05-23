@@ -4,3 +4,4 @@
 *.exe
 .DS_Store
 *.csv
+*.~undo-tree~
