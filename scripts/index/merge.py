@@ -18,7 +18,7 @@ class Record:
 def main():
     argp = argparse.ArgumentParser()
     argp.add_argument("infiles", nargs='+', required=True)
-    argp.add_argument("ofile")
+    argp.add_argument("-o", dest="ofile", required=True)
     args = argp.parse_args()
 
     in_data = set()
