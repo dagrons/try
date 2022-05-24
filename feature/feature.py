@@ -90,10 +90,9 @@ class OpCodeFeature(Feature):
 
 
 if __name__ == "__main__":
-    fclient = filebrowser.FileBrowserClient(host="10.112.254.160", port="8082")
-    fclient.authenticate("admin", "daxiahyh")
+    fclient = filebrowser.FileBrowserClient().with_host(host="10.112.108.112", port="8081", username="admin", password="daxiahyh")
     download_list = [
-        "malware/DikeDataset-main/files/benign/0a8deb24eef193e13c691190758c349776eab1cd65fba7b5dae77c7ee9fcc906.exe",
+        "dagongren/DikeDataset-main/files/benign/0a8deb24eef193e13c691190758c349776eab1cd65fba7b5dae77c7ee9fcc906.exe",
     ]
     opcode_set = set()
     for file in download_list:
