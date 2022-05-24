@@ -1,4 +1,6 @@
+import abc
 import os.path
+from abc import ABC, abstractmethod
 
 import numpy as np
 import filebrowser
@@ -6,7 +8,7 @@ import lief
 from capstone import *
 
 
-class Feature:
+class Feature(ABC):
     """interface for all feature type"""
 
     def __init__(self):
@@ -14,14 +16,15 @@ class Feature:
         self.dtype = np.float32
         self.name = ''
 
+    @abstractmethod
     def __call__(self):
-        return NotImplementedError
+        """call for feature extraction"""
 
     def __repr__(self):
         return '{}({})'.format(self.name, self.dim)
 
 
-class BaseFeature(Feature):
+class BaseFeature(Feature, ABC):
     """interface & base impl for all base feature type"""
 
     def __init__(self, dim):

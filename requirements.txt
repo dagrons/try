@@ -1,0 +1,7 @@
+lief~=0.12.1
+filebrowser @ git+https://github.com/dagrons/filebrowser@master
+numpy~=1.21.6
+capstone~=4.0.2
+tqdm~=4.64.0
+setuptools~=60.2.0
+
