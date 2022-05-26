@@ -5,3 +5,4 @@
 .DS_Store
 *.~undo-tree~
 *__pycache__*
+/.vscode/
