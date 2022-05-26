@@ -3,6 +3,5 @@
 /.idea/
 *.exe
 .DS_Store
-*.csv
 *.~undo-tree~
 *__pycache__*
