@@ -1,6 +1,6 @@
 https://github.com/lief-project/LIEF/releases/download/0.7.0/linux_lief-0.7.0_py3.6.tar.gz
 filebrowser @ git+https://github.com/dagrons/fbrowser@master
-gym-malware @ git+https://github.com/dagrons/gym-malware@master
+gym_malware @ git+https://github.com/dagrons/gym-malware@master
 capstone
 
 
