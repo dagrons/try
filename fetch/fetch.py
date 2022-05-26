@@ -20,7 +20,7 @@ class Fetcher:
                     self.sha256_to_fpath[line['sha256']] = line['filename']
                     self.md5_to_fpath[line['md5']] = line['filename']
 
-    def fetch(self, hash: str, save_path: str = None):
+    def fetch(self, hash: str, save_path: str = None) -> bytes:
         if hash in self.cache:
             return open(self.cache[hash], 'rb')
         if save_path is None:

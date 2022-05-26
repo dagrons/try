@@ -1,7 +1,6 @@
-lief~=0.12.1
-filebrowser @ git+https://github.com/dagrons/filebrowser@master
-numpy~=1.21.6
-capstone~=4.0.2
-tqdm~=4.64.0
-setuptools~=60.2.0
+https://github.com/lief-project/LIEF/releases/download/0.7.0/linux_lief-0.7.0_py3.6.tar.gz
+filebrowser @ git+https://github.com/dagrons/fbrowser@master
+gym-malware @ git+https://github.com/dagrons/gym-malware@master
+capstone
+
 
