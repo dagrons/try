@@ -6,3 +6,4 @@
 *.~undo-tree~
 *__pycache__*
 /.vscode/
+*.log

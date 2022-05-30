@@ -1,4 +1,5 @@
-import abc
+"""feature for malware."""
+
 import os.path
 from abc import ABC, abstractmethod
 
@@ -9,7 +10,7 @@ from capstone import *
 
 
 class Feature(ABC):
-    """interface for all feature type"""
+    """interface for all feature type."""
 
     def __init__(self):
         super().__init__()
@@ -18,14 +19,14 @@ class Feature(ABC):
 
     @abstractmethod
     def __call__(self):
-        """call for feature extraction"""
+        """call for feature extraction."""
 
     def __repr__(self):
         return '{}({})'.format(self.name, self.dim)
 
 
 class BaseFeature(Feature, ABC):
-    """interface & base impl for all base feature type"""
+    """interface & base impl for all base feature type."""
 
     def __init__(self, dim):
         super(BaseFeature, self).__init__()
@@ -36,7 +37,7 @@ class BaseFeature(Feature, ABC):
 
 
 class RawBytesFeature(Feature):
-    """raw bytes from whole exe"""
+    """raw bytes from whole exe."""
 
     def __init__(self):
         super(RawBytesFeature, self).__init__()
@@ -60,7 +61,7 @@ class RawBytesFeature(Feature):
 
 
 class OpCodeFeature(Feature):
-    """opcode sequence from binary"""
+    """opcode sequence from binary."""
 
     def __init__(self, only_text=False):
         super(OpCodeFeature, self).__init__()
@@ -76,7 +77,7 @@ class OpCodeFeature(Feature):
             disasm_sections = [".text"]
         for name in disasm_sections:
             section = binary.get_section(name)
-            try: # some sections may contains no content
+            try:  # some sections may contains no content
                 bytes = section.content.tobytes()
             except:
                 continue
@@ -90,7 +91,8 @@ class OpCodeFeature(Feature):
 
 
 if __name__ == "__main__":
-    fclient = filebrowser.FileBrowserClient().with_host(host="10.112.108.112", port="8081", username="admin", password="daxiahyh")
+    fclient = filebrowser.FileBrowserClient().with_host(
+        host="10.112.108.112", port="8081", username="admin", password="daxiahyh")
     download_list = [
         "dagongren/DikeDataset-main/files/benign/0a8deb24eef193e13c691190758c349776eab1cd65fba7b5dae77c7ee9fcc906.exe",
     ]
@@ -108,4 +110,3 @@ if __name__ == "__main__":
         opcodes = OpCodeFeature()
         opcode_set.update(opcodes(binary))
     print(len(opcode_set))
-

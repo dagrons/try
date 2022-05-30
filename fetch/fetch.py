@@ -1,3 +1,5 @@
+"""fetch bytez from downloader."""
+
 import csv
 import tempfile
 
@@ -6,7 +8,9 @@ from typing import List
 
 
 class Fetcher:
-    def __init__(self, indexes: List[str] = [], downloader: filebrowser.FileBrowserClient = None):
+    """fetch bytez from downloader."""
+
+    def __init__(self, indexes: List[str] = [], downloader: filebrowser.FileBrowserClient = None):        
         self.sha256_to_fpath = {}
         self.md5_to_fpath = {}
         self.downloader = downloader
