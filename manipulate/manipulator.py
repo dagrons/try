@@ -3,6 +3,7 @@
 import functools
 import multiprocessing
 from signal import signal
+from typing import List
 import lief
 from gym_malware.envs.controls import manipulate2
 import signal
@@ -34,7 +35,7 @@ ACTION_TABLE = {
 }
 
 
-def modify_without_breaking(bytez, actions=[], seed=None):
+def modify_without_breaking(bytez: bytes, actions: List[str], seed=None) -> bytes:
     """Give a sequence of actions, run modifications in helper process.
 
     run modification in helper process to catch errors
